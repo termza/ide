@@ -1,0 +1,18 @@
+{
+  "name": "PPL Study Guide — Cessna 172S",
+  "short_name": "PPL Guide",
+  "description": "Private Pilot License study guide for the Cessna 172S. FAR/AIM, PHAK, ACS, and POH references in one offline-capable app.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1d3a",
+  "theme_color": "#0b1d3a",
+  "orientation": "any",
+  "categories": ["education", "reference", "productivity"],
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

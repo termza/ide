@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1d3a" />
+  <meta name="description" content="Private Pilot License (PPL) study guide for Cessna 172S — FAR/AIM, PHAK, ACS, and POH references in one offline-capable PWA." />
+  <title>PPL Study Guide — Cessna 172S</title>
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="PPL Guide" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-header">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" fill="currentColor"/>
+      </svg>
+      <div class="brand-text">
+        <span class="brand-title">PPL Study Guide</span>
+        <span class="brand-sub">Cessna 172S · FAR/AIM · PHAK · ACS · POH</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <label class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5 L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="search-input" type="search" placeholder="Search topics, V-speeds, regs…" autocomplete="off" />
+        <kbd class="kbd-hint">/</kbd>
+      </label>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Section navigation">
+      <nav id="section-nav"></nav>
+      <div class="progress-card">
+        <div class="progress-label">
+          <span>Study progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        <button id="reset-progress" class="ghost-btn">Reset progress</button>
+      </div>
+    </aside>
+
+    <main id="main" class="content" tabindex="-1">
+      <div id="view"></div>
+    </main>
+  </div>
+
+  <button id="mobile-nav-toggle" class="mobile-nav-toggle" aria-label="Open sections" aria-controls="sidebar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+
+  <div class="install-banner" id="install-banner" hidden>
+    <span>Install this guide for offline study.</span>
+    <button id="install-btn">Install</button>
+    <button id="install-dismiss" class="ghost-btn" aria-label="Dismiss">Dismiss</button>
+  </div>
+
+  <script src="assets/content.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
