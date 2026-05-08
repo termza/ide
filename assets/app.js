@@ -305,7 +305,12 @@
   }
 
   function makeSnippet(text, terms) {
-    const plain = text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+    const plain = text
+      .replace(/<[^>]+>/g, " ")           // strip HTML/qref tags
+      .replace(/`([^`]+)`/g, "$1")        // unwrap inline code
+      .replace(/\*\*([^*]+)\*\*/g, "$1")  // unwrap bold
+      .replace(/[#*`|]/g, " ")            // drop leftover markdown markers
+      .replace(/\s+/g, " ");
     const lower = plain.toLowerCase();
     let pos = -1;
     for (const t of terms) { pos = lower.indexOf(t); if (pos >= 0) break; }
@@ -461,9 +466,9 @@
       // empty
       if (/^\s*$/.test(line)) { i++; continue; }
 
-      // paragraph (collect until blank)
+      // paragraph (collect until a blank line or a recognized block marker)
       const buf = [];
-      while (i < lines.length && lines[i].trim() && !/^[#>*\-\d]/.test(lines[i].trim()[0]) && !/^\|/.test(lines[i].trim()) && !/^<qref>/.test(lines[i])) {
+      while (i < lines.length && lines[i].trim() && !/^(#{1,3}\s|>\s|\s*([-*]|\d+\.)\s|\||<qref>)/.test(lines[i])) {
         buf.push(lines[i]);
         i++;
       }
@@ -483,10 +488,13 @@
     out = out.replace(/`([^`]+)`/g, (_, c) => `<code>${c}</code>`);
     // bold
     out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-    // italic
-    out = out.replace(/(^|[\s(])\*([^*]+)\*/g, "$1<em>$2</em>");
-    // links [text](url)
-    out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" rel="noopener">$1</a>');
+    // italic — runs after bold, so any remaining single * pairs are italics
+    out = out.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    // links [text](url) — only allow http(s), mailto, and relative URLs
+    out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+      const safe = /^(https?:|mailto:|\/|#|\.\.?\/)/i.test(url.trim());
+      return safe ? `<a href="${url}" rel="noopener">${text}</a>` : match;
+    });
     return out;
   }
 
